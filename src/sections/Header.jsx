@@ -1,16 +1,17 @@
 import { useCallback, useEffect, useRef, useState } from "react";
-import { Flame, Menu, X } from "lucide-react";
+import { Menu, X } from "lucide-react";
 import Button from "../components/Button.jsx";
 import { navigationItems } from "../content/navigation.js";
+import logo from "../assets/logo.jpeg";
 import "./Header.css";
 
 function Brand({ homeReady, onNavigate }) {
   const contents = (
     <>
       <span className="header-brand__mark" aria-hidden="true">
-        <Flame className="header-brand__flame" size={20} strokeWidth={2.5} />
+        <img className="header-brand__image" src={logo} alt="" width="1563" height="1563" />
       </span>
-      <span className="header-brand__text">IGNÍFUGOS <span>CABA</span></span>
+      <span className="header-brand__text">IGNÍFUGOS</span>
     </>
   );
 
