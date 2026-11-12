@@ -1,0 +1,24 @@
+.form-field {
+  display: grid;
+  gap: 8px;
+}
+
+.form-field__label {
+  font-size: 14px;
+  font-weight: 700;
+}
+
+.form-field__control {
+  min-width: 0;
+  min-height: 44px;
+  padding: 10px 14px;
+  border: 1px solid var(--color-input);
+  border-radius: var(--radius-lg);
+  background: var(--color-paper);
+  color: var(--color-background);
+}
+
+.form-field__error {
+  color: var(--color-flame);
+  font-size: 13px;
+}
