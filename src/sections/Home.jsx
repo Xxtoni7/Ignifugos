@@ -19,6 +19,10 @@ export default function Home() {
       <div className="home-hero__overlay" aria-hidden="true" />
       <div className="home-hero__inner container">
         <div className="home-hero__copy">
+          <p className="home-hero__eyebrow">
+            <span className="home-hero__eyebrow-line" aria-hidden="true" />
+            Desde 2007 brindando soluciones
+          </p>
           <h1 id="home-title">
             Protegemos lo que <span>importa</span>
           </h1>

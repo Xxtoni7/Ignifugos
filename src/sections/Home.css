@@ -44,6 +44,10 @@
   animation: home-hero-enter 1000ms ease both;
 }
 
+.home-hero__eyebrow {
+  display: none;
+}
+
 .home-hero__lower {
   display: flex;
   flex-direction: column;
@@ -146,6 +150,42 @@
   color: var(--color-foreground);
 }
 
+@media (width < 1024px) {
+  .home-hero__copy {
+    position: relative;
+  }
+
+  .home-hero__copy > .home-hero__eyebrow {
+    position: absolute;
+    bottom: calc(100% + 24px);
+    left: 0;
+    display: flex;
+    width: max-content;
+    max-width: 100%;
+    align-items: center;
+    gap: 12px;
+    margin: 0;
+    color: var(--color-primary);
+    font-family: var(--font-body);
+    font-size: 12px;
+    font-weight: 700;
+    letter-spacing: 0.18em;
+    line-height: 1.5;
+    text-transform: uppercase;
+  }
+
+  .home-hero__eyebrow-line {
+    width: 40px;
+    height: 1px;
+    flex: 0 0 40px;
+    background: currentColor;
+  }
+
+  .home-hero__trajectory {
+    display: none;
+  }
+}
+
 @media (min-width: 1024px) {
   .home-hero__inner {
     padding-bottom: 128px;
@@ -160,11 +200,15 @@
   }
 }
 
-@media (min-width: 768px) and (max-width: 1023px) {
+@media (min-width: 768px) and (width < 1024px) {
   .home-hero__inner {
     justify-content: flex-end;
     padding-top: 168px;
     padding-bottom: 56px;
+  }
+
+  .home-hero__copy {
+    padding-bottom: 80px;
   }
 
   .home-hero__lower {
@@ -186,7 +230,7 @@
   }
 }
 
-@media (min-width: 768px) and (max-width: 1023px) {
+@media (min-width: 768px) and (width < 1024px) {
   .home-hero {
     --home-marquee-clearance: 48px;
   }
@@ -211,7 +255,7 @@
 
   .home-hero__inner {
     justify-content: space-between;
-    padding-top: 128px;
+    padding-top: 175px;
     padding-bottom: 32px;
   }
 
