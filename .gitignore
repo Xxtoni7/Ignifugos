@@ -2,3 +2,10 @@ node_modules/
 dist/
 .vite/
 .pnpm-store/
+
+# Design-only previews and references (keep production assets under src/assets tracked).
+/*-template.*
+/templates/
+/mockups/
+/design-references/
+/reference-images/
