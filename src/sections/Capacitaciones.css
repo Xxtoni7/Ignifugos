@@ -2,7 +2,7 @@
   padding-block: 96px;
   background: var(--color-paper);
   color: var(--color-paper-foreground);
-  scroll-margin-top: calc(var(--header-height) + 16px);
+  scroll-margin-top: -16px;
 }
 
 .training-section__inner {
