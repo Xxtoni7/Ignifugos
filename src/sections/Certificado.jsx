@@ -103,7 +103,10 @@ export default function Certificado() {
               </Reveal>
             ))}
           </ul>
+        </div>
 
+        <Reveal className="certificate-section__illustration" delay={150}>
+          <CertificateIllustration />
           <Reveal className="certificate-section__cta-enter">
             <Button
               className="certificate-section__cta"
@@ -114,10 +117,6 @@ export default function Certificado() {
               Consultar por el certificado <ArrowRight aria-hidden="true" />
             </Button>
           </Reveal>
-        </div>
-
-        <Reveal className="certificate-section__illustration" delay={150}>
-          <CertificateIllustration />
         </Reveal>
       </div>
     </section>

@@ -151,6 +151,8 @@
 }
 
 .certificate-section__illustration {
+  display: grid;
+  gap: 24px;
   min-width: 0;
 }
 
