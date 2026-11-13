@@ -121,6 +121,12 @@
 
 .certificate-section__cta-enter {
   transition: none;
+  justify-self: center;
+  width: max-content;
+  max-width: 100%;
+  position: relative;
+  top: 24px;
+  margin-top: 32px;
 }
 
 .certificate-section__cta-enter[data-visible="true"] {
@@ -141,13 +147,6 @@
   display: grid;
   gap: 24px;
   min-width: 0;
-}
-
-.certificate-section__cta-enter {
-  justify-self: center;
-  position: relative;
-  top: 24px;
-  margin-top: 32px;
 }
 
 .certificate-document-scene {
@@ -278,7 +277,7 @@
   }
 
   .certificate-section__cta-enter {
-    justify-self: stretch;
+    justify-self: center;
     top: 0;
     margin-top: 0;
   }
