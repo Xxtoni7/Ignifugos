@@ -3,6 +3,7 @@ import Home from "./sections/Home.jsx";
 import Marquee from "./sections/Marquee.jsx";
 import Certificado from "./sections/Certificado.jsx";
 import Tratamientos from "./sections/Tratamientos.jsx";
+import Capacitaciones from "./sections/Capacitaciones.jsx";
 
 export default function App() {
   return (
@@ -13,6 +14,7 @@ export default function App() {
         <Marquee />
         <Certificado />
         <Tratamientos />
+        <Capacitaciones />
       </main>
     </>
   );

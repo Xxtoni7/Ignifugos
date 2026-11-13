@@ -8,6 +8,9 @@
   --color-muted: oklch(0.3 0.06 254);
   --color-accent: oklch(0.32 0.07 254);
   --color-paper: oklch(0.947 0.024 96.6);
+  --color-paper-foreground: oklch(0.25 0.064 253);
+  --color-paper-muted: oklch(0.25 0.064 253 / 90%);
+  --color-paper-line: oklch(0.25 0.064 253 / 14%);
   --color-ink: oklch(0.171 0.011 248.4);
   --color-flame: oklch(0.612 0.21 32.2);
   --color-border: oklch(0.947 0.024 96.6 / 14%);
