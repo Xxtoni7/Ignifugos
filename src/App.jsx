@@ -2,6 +2,7 @@ import Header from "./sections/Header.jsx";
 import Home from "./sections/Home.jsx";
 import Marquee from "./sections/Marquee.jsx";
 import Certificado from "./sections/Certificado.jsx";
+import Tratamientos from "./sections/Tratamientos.jsx";
 
 export default function App() {
   return (
@@ -11,6 +12,7 @@ export default function App() {
         <Home />
         <Marquee />
         <Certificado />
+        <Tratamientos />
       </main>
     </>
   );

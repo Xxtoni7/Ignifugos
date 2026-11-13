@@ -24,7 +24,7 @@ function Brand({ homeReady, onNavigate }) {
 function Navigation({ availableSections, onNavigate, drawer = false }) {
   return (
     <nav className={drawer ? "header-navigation header-navigation--drawer" : "header-navigation"} aria-label="Secciones">
-      {navigationItems.map(({ id, label }) => availableSections.includes(id) ? (
+      {navigationItems.map(({ id, label, enabled = false }) => availableSections.includes(id) || enabled ? (
         <a key={id} href={`#${id}`} onClick={onNavigate}>{label}</a>
       ) : (
         <span className="header-navigation__pending" key={id}>{label}</span>
