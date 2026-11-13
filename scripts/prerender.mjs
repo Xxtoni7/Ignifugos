@@ -6,6 +6,8 @@ import { createServer } from "vite";
 
 const server = await createServer({
   configFile: false,
+  mode: "production",
+  define: { "import.meta.env.DEV": false },
   server: { middlewareMode: true },
   appType: "custom",
 });

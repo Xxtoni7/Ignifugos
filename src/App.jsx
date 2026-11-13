@@ -3,6 +3,7 @@ import Home from "./sections/Home.jsx";
 import Marquee from "./sections/Marquee.jsx";
 import Certificado from "./sections/Certificado.jsx";
 import Tratamientos from "./sections/Tratamientos.jsx";
+import WhatsAppFloating from "./components/WhatsAppFloating.jsx";
 
 export default function App() {
   return (
@@ -14,6 +15,7 @@ export default function App() {
         <Certificado />
         <Tratamientos />
       </main>
+      <WhatsAppFloating />
     </>
   );
 }

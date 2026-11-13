@@ -10,6 +10,10 @@
   --color-paper: oklch(0.947 0.024 96.6);
   --color-ink: oklch(0.171 0.011 248.4);
   --color-flame: oklch(0.612 0.21 32.2);
+  --color-whatsapp: #25d366;
+  --color-whatsapp-foreground: #fff;
+  --color-whatsapp-tooltip: #0f1b33;
+  --color-whatsapp-focus: #c8e632;
   --color-border: oklch(0.947 0.024 96.6 / 14%);
   --color-input: oklch(0.947 0.024 96.6 / 20%);
   --font-body: "Manrope Variable", ui-sans-serif, system-ui, sans-serif;
@@ -26,6 +30,10 @@
   --shadow-glow: 0 10px 30px -10px oklch(0.937 0.218 117.9 / 55%);
   --shadow-glow-strong: 0 18px 44px -12px oklch(0.937 0.218 117.9 / 70%);
   --shadow-paper: 0 30px 60px -30px oklch(0.25 0.064 253 / 45%);
+  --shadow-whatsapp: 0 4px 24px rgba(37, 211, 102, .4);
+  --shadow-whatsapp-hover: 0 6px 32px rgba(37, 211, 102, .5);
+  --shadow-whatsapp-tooltip: 0 8px 32px rgba(0, 0, 0, .2);
+  --filter-whatsapp-halo: drop-shadow(0 0 12px rgba(37, 211, 102, .45));
   --gradient-hero-react: linear-gradient(100deg, oklch(0.2 0.06 253 / 92%) 0%, oklch(0.22 0.06 253 / 62%) 45%, oklch(0.25 0.064 253 / 5%) 100%);
   --gradient-card-react: linear-gradient(to bottom, transparent 30%, oklch(0.17 0.04 253 / 92%) 100%);
   --header-height: 64px;
