@@ -4,7 +4,7 @@
   "private": true,
   "scripts": {
     "dev": "vite --host 127.0.0.1",
-    "build": "vite build && node scripts/prerender.mjs",
+    "build": "vite build --manifest && node scripts/prerender.mjs",
     "preview": "vite preview --host 127.0.0.1"
   },
   "type": "module",
