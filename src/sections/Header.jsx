@@ -41,7 +41,7 @@ function BudgetButton({ budgetReady, onNavigate, className = "" }) {
   );
 }
 
-export default function Header({ availableSections = [], homeReady = false, budgetReady = false }) {
+export default function Header({ availableSections = [], homeReady = true, budgetReady = false }) {
   const [scrolled, setScrolled] = useState(false);
   const [drawerState, setDrawerState] = useState("closed");
   const triggerRef = useRef(null);
