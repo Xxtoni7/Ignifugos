@@ -316,15 +316,6 @@
     font-size: 14px;
   }
 
-  .certificate-section__cta.button {
-    width: 100%;
-  }
-
-  .certificate-section__cta-enter {
-    width: calc(100% - 20px);
-    justify-self: center;
-  }
-
   .certificate-document-scene {
     padding: 10px;
   }
@@ -361,6 +352,17 @@
 
   .certificate-document__signature {
     margin-top: 68px;
+  }
+}
+
+@media (max-width: 600px) {
+  .certificate-section__cta.button {
+    width: 100%;
+  }
+
+  .certificate-section__cta-enter {
+    width: calc(100% - 20px);
+    justify-self: center;
   }
 }
 
