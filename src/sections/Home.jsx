@@ -21,7 +21,7 @@ export default function Home() {
         <div className="home-hero__copy">
           <p className="home-hero__eyebrow">
             <span className="home-hero__eyebrow-line" aria-hidden="true" />
-            Desde 2007 brindando soluciones
+            {" "}Desde 2007 brindando soluciones
           </p>
           <h1 id="home-title">
             Protegemos lo que <span>importa</span>
@@ -43,7 +43,7 @@ export default function Home() {
             <Button variant="hero" disabled>
               Pedir presupuesto <ArrowRight size={16} strokeWidth={2} aria-hidden="true" />
             </Button>
-            <Button className="home-hero__secondary" disabled>
+            <Button className="home-hero__secondary" href="#tratamientos">
               Ver tratamientos
             </Button>
           </div>
