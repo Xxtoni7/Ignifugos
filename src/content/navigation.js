@@ -2,6 +2,6 @@
 export const navigationItems = [
   { id: "certificado", label: "Certificado" },
   { id: "tratamientos", label: "Tratamientos", enabled: true },
-  { id: "capacitaciones", label: "Capacitaciones" },
+  { id: "capacitaciones", label: "Capacitaciones", enabled: true },
   { id: "consulta", label: "Consulta" },
 ];

@@ -47,7 +47,7 @@
 .certificate-section__description {
   max-width: 520px;
   margin: 24px 0 0;
-  color: color-mix(in oklab, var(--color-background) 68%, transparent);
+  color: color-mix(in oklab, var(--color-background) 90%, transparent);
   font-size: 18px;
   line-height: 1.65;
 }
@@ -98,7 +98,7 @@
 }
 
 .certificate-section__point-text {
-  color: color-mix(in oklab, var(--color-background) 68%, transparent);
+  color: color-mix(in oklab, var(--color-background) 90%, transparent);
   font-size: 15px;
   line-height: 1.55;
 }
