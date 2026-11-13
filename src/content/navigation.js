@@ -1,9 +1,7 @@
 // Se activan de a uno, luego de aprobar la sección de destino.
 export const navigationItems = [
   { id: "certificado", label: "Certificado" },
-  { id: "tratamientos", label: "Tratamientos" },
+  { id: "tratamientos", label: "Tratamientos", enabled: true },
   { id: "capacitaciones", label: "Capacitaciones" },
   { id: "consulta", label: "Consulta" },
 ];
-
-export const availableSections = ["certificado", "tratamientos"];

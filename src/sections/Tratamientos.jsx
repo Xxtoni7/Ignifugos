@@ -51,7 +51,8 @@ function TreatmentCard({ treatment, index }) {
 
 export default function Tratamientos() {
   return (
-    <section id="tratamientos" className="treatments-section" aria-labelledby="treatments-title">
+    <section className="treatments-section" aria-labelledby="treatments-title">
+      <span id="tratamientos" className="treatments-section__anchor" aria-hidden="true" />
       <div className="treatments-section__grid" aria-hidden="true" />
       <div className="container treatments-section__inner">
         <Reveal className="treatments-section__heading">
