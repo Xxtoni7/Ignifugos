@@ -58,7 +58,10 @@ export default function Tratamientos() {
         <Reveal className="treatments-section__heading">
           <div>
             <p className="treatments-section__eyebrow">Tratamientos</p>
-            <h2 id="treatments-title">Tres superficies, un mismo objetivo.</h2>
+            <h2 id="treatments-title">
+              <span>Tres superficies,</span>{" "}
+              <span>un mismo objetivo.</span>
+            </h2>
           </div>
           <p className="treatments-section__intro">{treatmentsIntroduction}</p>
         </Reveal>
