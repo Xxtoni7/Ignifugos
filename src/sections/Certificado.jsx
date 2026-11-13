@@ -1,6 +1,6 @@
 import { ArrowRight, FileCheck2, PenLine, ShieldCheck } from "lucide-react";
+import { useEffect, useRef, useState } from "react";
 import Button from "../components/Button.jsx";
-import Reveal from "../components/Reveal.jsx";
 import logo from "../assets/logo.jpeg";
 import "./Certificado.css";
 
@@ -21,6 +21,35 @@ const points = [
     text: "Para presentar cuando te lo soliciten. No reemplaza los requisitos de una habilitación.",
   },
 ];
+
+function Reveal({ as: Tag = "div", delay = 0, className = "", children }) {
+  const elementRef = useRef(null);
+  const [visible, setVisible] = useState(false);
+
+  useEffect(() => {
+    const element = elementRef.current;
+    if (!element) return undefined;
+    const observer = new IntersectionObserver(([entry]) => {
+      if (entry?.isIntersecting) {
+        setVisible(true);
+        observer.disconnect();
+      }
+    }, { threshold: 0.12, rootMargin: "0px 0px -40px 0px" });
+    observer.observe(element);
+    return () => observer.disconnect();
+  }, []);
+
+  return (
+    <Tag
+      ref={elementRef}
+      className={`certificate-reveal ${className}`.trim()}
+      style={{ transitionDelay: `${delay}ms` }}
+      data-visible={visible}
+    >
+      {children}
+    </Tag>
+  );
+}
 
 function CertificateIllustration() {
   return (

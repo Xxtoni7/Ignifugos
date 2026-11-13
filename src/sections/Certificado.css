@@ -17,6 +17,19 @@
   min-width: 0;
 }
 
+.certificate-reveal {
+  opacity: 0;
+  transform: translateY(24px);
+  transition:
+    opacity 800ms cubic-bezier(0.2, 0.7, 0.2, 1),
+    transform 800ms cubic-bezier(0.2, 0.7, 0.2, 1);
+}
+
+.certificate-reveal[data-visible="true"] {
+  opacity: 1;
+  transform: none;
+}
+
 .certificate-section__eyebrow {
   margin: 0 0 20px;
   color: var(--color-flame);
@@ -340,6 +353,13 @@
 }
 
 @media (prefers-reduced-motion: reduce) {
+  .certificate-reveal,
+  .certificate-reveal[data-visible="true"] {
+    opacity: 1;
+    transform: none;
+    transition: none;
+  }
+
   .certificate-section__cta-enter[data-visible="true"] {
     animation: none;
   }
