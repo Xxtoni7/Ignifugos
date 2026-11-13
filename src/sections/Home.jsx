@@ -41,7 +41,7 @@ export default function Home() {
         <div className="home-hero__lower">
           <div className="home-hero__actions" aria-label="Acciones principales">
             <Button variant="hero" disabled>
-              Pedir presupuesto <ArrowRight size={16} strokeWidth={2} aria-hidden="true" />
+              Resolvemos de inmediato <ArrowRight size={16} strokeWidth={2} aria-hidden="true" />
             </Button>
             <Button className="home-hero__secondary" href="#tratamientos">
               Ver tratamientos
