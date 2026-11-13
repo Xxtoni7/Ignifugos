@@ -1,5 +1,6 @@
 .certificate-section {
   overflow: hidden;
+  scroll-margin-top: -48px;
   background: var(--color-paper);
   color: var(--color-background);
 }
