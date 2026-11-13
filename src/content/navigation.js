@@ -5,3 +5,5 @@ export const navigationItems = [
   { id: "capacitaciones", label: "Capacitaciones" },
   { id: "consulta", label: "Consulta" },
 ];
+
+export const availableSections = ["certificado", "tratamientos"];
