@@ -1,6 +1,6 @@
 import * as Select from "@radix-ui/react-select";
 import { Check, ChevronDown, ChevronUp } from "lucide-react";
-import { forwardRef } from "react";
+import { forwardRef, useState } from "react";
 import "./SelectField.css";
 
 const SelectField = forwardRef(function SelectField(
@@ -17,8 +17,16 @@ const SelectField = forwardRef(function SelectField(
   },
   ref,
 ) {
+  const [open, setOpen] = useState(false);
+
   return (
-    <Select.Root value={value} onValueChange={onValueChange} required={required}>
+    <Select.Root
+      open={open}
+      onOpenChange={setOpen}
+      value={value}
+      onValueChange={onValueChange}
+      required={required}
+    >
       <Select.Trigger
         ref={ref}
         id={id}
