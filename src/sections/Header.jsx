@@ -1,6 +1,6 @@
 import { useCallback, useEffect, useRef, useState } from "react";
 import Button from "../components/Button.jsx";
-import { navigationItems } from "../content/navigation.js";
+import { HOME_HREF, navigationItems } from "../content/navigation.js";
 import logo from "../assets/logo.jpeg";
 import "./Header.css";
 
@@ -15,7 +15,7 @@ function Brand({ homeReady, onNavigate }) {
   );
 
   return homeReady ? (
-    <a className="header-brand" href="#inicio" aria-label="Ignífugos CABA, inicio" onClick={onNavigate}>{contents}</a>
+    <a className="header-brand" href={HOME_HREF} aria-label="Ignífugos CABA, inicio" onClick={onNavigate}>{contents}</a>
   ) : (
     <span className="header-brand">{contents}</span>
   );
@@ -24,8 +24,8 @@ function Brand({ homeReady, onNavigate }) {
 function Navigation({ availableSections, onNavigate, drawer = false }) {
   return (
     <nav className={drawer ? "header-navigation header-navigation--drawer" : "header-navigation"} aria-label="Secciones">
-      {navigationItems.map(({ id, label, enabled = false }) => availableSections.includes(id) || enabled ? (
-        <a key={id} href={`#${id}`} onClick={onNavigate}>{label}</a>
+      {navigationItems.map(({ id, label, href, enabled = false }) => availableSections.includes(id) || enabled ? (
+        <a key={id} href={href ?? `#${id}`} onClick={onNavigate}>{label}</a>
       ) : (
         <span className="header-navigation__pending" key={id}>{label}</span>
       ))}
@@ -41,11 +41,13 @@ function BudgetButton({ budgetReady, onNavigate, className = "" }) {
   );
 }
 
-export default function Header({ availableSections = [], homeReady = true, budgetReady = false }) {
+export default function Header({ availableSections = [], homeReady = true, budgetReady = false, onBudgetNavigate }) {
   const [scrolled, setScrolled] = useState(false);
   const [drawerState, setDrawerState] = useState("closed");
   const triggerRef = useRef(null);
   const closeTimerRef = useRef(null);
+  const restoreTriggerFocusRef = useRef(true);
+  const pendingBudgetNavigationRef = useRef(false);
   const drawerVisible = drawerState !== "closed";
   const drawerExpanded = drawerState === "open";
 
@@ -55,7 +57,25 @@ export default function Header({ availableSections = [], homeReady = true, budge
 
   const openMenu = () => {
     if (closeTimerRef.current) window.clearTimeout(closeTimerRef.current);
+    restoreTriggerFocusRef.current = true;
+    pendingBudgetNavigationRef.current = false;
     setDrawerState((current) => current === "closed" ? "opening" : "open");
+  };
+
+  const navigateToBudget = (event) => {
+    if (event.defaultPrevented || event.button !== 0 || event.metaKey || event.ctrlKey || event.shiftKey || event.altKey) return;
+    if (!onBudgetNavigate) {
+      closeMenu();
+      return;
+    }
+    event.preventDefault();
+    restoreTriggerFocusRef.current = false;
+    if (drawerVisible) {
+      pendingBudgetNavigationRef.current = true;
+      closeMenu();
+    } else {
+      onBudgetNavigate();
+    }
   };
 
   const toggleMenu = () => {
@@ -136,9 +156,20 @@ export default function Header({ availableSections = [], homeReady = true, budge
       document.removeEventListener("keydown", onKeyDown);
       document.body.style.overflow = previousOverflow;
       triggerRef.current?.style.removeProperty("--menu-scrollbar-compensation");
-      if (triggerRef.current && getComputedStyle(triggerRef.current).display !== "none") triggerRef.current.focus();
+      if (restoreTriggerFocusRef.current && triggerRef.current && getComputedStyle(triggerRef.current).display !== "none") {
+        window.requestAnimationFrame(() => triggerRef.current?.focus({ preventScroll: true }));
+      }
     };
   }, [drawerVisible, closeMenu]);
+
+  useEffect(() => {
+    if (drawerState !== "closed" || !pendingBudgetNavigationRef.current) return undefined;
+    const frame = window.requestAnimationFrame(() => {
+      pendingBudgetNavigationRef.current = false;
+      onBudgetNavigate?.();
+    });
+    return () => window.cancelAnimationFrame(frame);
+  }, [drawerState, onBudgetNavigate]);
 
   return (
     <>
@@ -147,7 +178,7 @@ export default function Header({ availableSections = [], homeReady = true, budge
           <Brand homeReady={homeReady} onNavigate={closeMenu} />
           <Navigation availableSections={availableSections} onNavigate={closeMenu} />
           <div className="site-header__cta">
-            <BudgetButton budgetReady={budgetReady} onNavigate={closeMenu} />
+            <BudgetButton budgetReady={budgetReady} onNavigate={navigateToBudget} />
           </div>
           <button
             id="header-menu-trigger"
@@ -173,7 +204,7 @@ export default function Header({ availableSections = [], homeReady = true, budge
           <button className="header-drawer__overlay" type="button" tabIndex={-1} aria-label="Cerrar menú" onClick={closeMenu} />
           <dialog open className="header-drawer__panel" aria-modal="true" aria-label="Menú" aria-owns="header-menu-trigger">
             <Navigation drawer availableSections={availableSections} onNavigate={closeMenu} />
-            <BudgetButton className="header-drawer__cta" budgetReady={budgetReady} onNavigate={closeMenu} />
+            <BudgetButton className="header-drawer__cta" budgetReady={budgetReady} onNavigate={navigateToBudget} />
           </dialog>
         </div>
       )}

@@ -27,9 +27,14 @@ export default function App() {
     });
   }, []);
 
+  const navigateToConsultas = useCallback(() => {
+    if (window.location.hash !== "#consulta") window.history.pushState(null, "", "#consulta");
+    openConsultas();
+  }, [openConsultas]);
+
   return (
     <>
-      <Header availableSections={["certificado"]} />
+      <Header availableSections={["certificado"]} budgetReady onBudgetNavigate={navigateToConsultas} />
       <main id="contenido" aria-label="Contenido principal">
         <Home onConsult={openConsultas} />
         <Marquee />
