@@ -10,12 +10,6 @@ export const consultaCopy = {
   detailsLabel: "Contanos un poco más",
   optionalLabel: "(opcional)",
   prepareLabel: "Enviar consulta",
-  previewTitle: "Vista previa",
-  previewDescription: "Revisá el mensaje antes de enviarlo.",
-  copiedLabel: "Copiado",
-  copyLabel: "Copiar",
-  editLabel: "Editar",
-  openWhatsAppLabel: "Abrir WhatsApp",
 };
 
 export const consultaSteps = [

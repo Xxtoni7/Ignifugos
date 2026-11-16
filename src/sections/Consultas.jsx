@@ -1,5 +1,4 @@
 import { forwardRef, useEffect, useRef, useState } from "react";
-import { Check, Copy, PencilLine, Send } from "lucide-react";
 import Button from "../components/Button.jsx";
 import FormField from "../components/FormField.jsx";
 import Reveal from "../components/Reveal.jsx";
@@ -7,7 +6,7 @@ import SelectField from "../components/SelectField.jsx";
 import { consultaCopy, consultaSteps } from "../content/consultas.js";
 import { SERVICE_OPTIONS } from "../content/services.js";
 import { buildConsultaMessage, CONSULTA_LIMITS, validateConsulta } from "../lib/consulta.js";
-import { buildWhatsAppUrl } from "../lib/whatsapp.js";
+import { openWhatsApp } from "../lib/whatsapp.js";
 import whatsappIcon from "../assets/whatsapp-icon.svg";
 import "./Consultas.css";
 
@@ -28,33 +27,23 @@ const Consultas = forwardRef(function Consultas(
 ) {
   const [values, setValues] = useState(() => ({ ...initialValues, service: selectedService }));
   const [errors, setErrors] = useState({});
-  const [message, setMessage] = useState("");
-  const [preview, setPreview] = useState(false);
-  const [copied, setCopied] = useState(false);
   const nameRef = useRef(null);
   const serviceRef = useRef(null);
   const zoneRef = useRef(null);
   const detailsRef = useRef(null);
-  const previewHeadingRef = useRef(null);
 
   useEffect(() => {
     setValues((current) => ({ ...current, service: selectedService }));
     setErrors((current) => ({ ...current, service: undefined }));
   }, [selectedService]);
 
-  useEffect(() => {
-    if (!preview) return;
-    window.requestAnimationFrame(() => previewHeadingRef.current?.focus({ preventScroll: true }));
-  }, [preview]);
-
   const updateField = (field) => (eventOrValue) => {
     const value = typeof eventOrValue === "string" ? eventOrValue : eventOrValue.target.value;
     setValues((current) => ({ ...current, [field]: value }));
-    setCopied(false);
     setErrors((current) => ({ ...current, [field]: undefined }));
   };
 
-  function prepareMessage(event) {
+  function handleSubmit(event) {
     event.preventDefault();
     const nextErrors = validateConsulta(values);
     setErrors(nextErrors);
@@ -72,26 +61,10 @@ const Consultas = forwardRef(function Consultas(
 
     const prepared = buildConsultaMessage(values);
     if (!prepared) return;
-    setMessage(prepared);
-    setPreview(true);
-  }
-
-  async function copyMessage() {
-    try {
-      await navigator.clipboard.writeText(message);
-      setCopied(true);
-    } catch {
-      setCopied(false);
+    if (!openWhatsApp(prepared)) {
+      event.currentTarget.querySelector('button[type="submit"]')?.focus({ preventScroll: true });
     }
   }
-
-  function editMessage() {
-    setPreview(false);
-    setCopied(false);
-    window.requestAnimationFrame(() => nameRef.current?.focus({ preventScroll: true }));
-  }
-
-  const whatsappUrl = preview ? buildWhatsAppUrl(message) : null;
 
   return (
     <section
@@ -126,94 +99,59 @@ const Consultas = forwardRef(function Consultas(
         </div>
 
         <Reveal className="consultas-section__card" delay={120}>
-          {!preview ? (
-            <form className="consultas-form" noValidate onSubmit={prepareMessage}>
-              <FormField id="consulta-nombre" label={consultaCopy.nameLabel} error={errors.name} required>
-                <input
-                  ref={nameRef}
-                  className="form-field__input"
-                  type="text"
-                  name="name"
-                  autoComplete="name"
-                  maxLength={CONSULTA_LIMITS.name}
-                  value={values.name}
-                  onChange={updateField("name")}
-                />
-              </FormField>
+          <form className="consultas-form" noValidate onSubmit={handleSubmit}>
+            <FormField id="consulta-nombre" label={consultaCopy.nameLabel} error={errors.name} required>
+              <input
+                ref={nameRef}
+                className="form-field__input"
+                type="text"
+                name="name"
+                autoComplete="name"
+                maxLength={CONSULTA_LIMITS.name}
+                value={values.name}
+                onChange={updateField("name")}
+              />
+            </FormField>
 
-              <FormField id="consulta-servicio" label={consultaCopy.serviceLabel} error={errors.service} required>
-                <SelectField
-                  ref={serviceRef}
-                  options={SERVICE_OPTIONS}
-                  value={values.service}
-                  onValueChange={updateField("service")}
-                  placeholder={consultaCopy.servicePlaceholder}
-                />
-              </FormField>
+            <FormField id="consulta-servicio" label={consultaCopy.serviceLabel} error={errors.service} required>
+              <SelectField
+                ref={serviceRef}
+                options={SERVICE_OPTIONS}
+                value={values.service}
+                onValueChange={updateField("service")}
+                placeholder={consultaCopy.servicePlaceholder}
+              />
+            </FormField>
 
-              <FormField id="consulta-zona" label={consultaCopy.zoneLabel} error={errors.zone} required>
-                <input
-                  ref={zoneRef}
-                  className="form-field__input"
-                  type="text"
-                  name="zone"
-                  maxLength={CONSULTA_LIMITS.zone}
-                  value={values.zone}
-                  onChange={updateField("zone")}
-                />
-              </FormField>
+            <FormField id="consulta-zona" label={consultaCopy.zoneLabel} error={errors.zone} required>
+              <input
+                ref={zoneRef}
+                className="form-field__input"
+                type="text"
+                name="zone"
+                maxLength={CONSULTA_LIMITS.zone}
+                value={values.zone}
+                onChange={updateField("zone")}
+              />
+            </FormField>
 
-              <FormField id="consulta-detalle" label={consultaCopy.detailsLabel} error={errors.details} optional>
-                <textarea
-                  ref={detailsRef}
-                  className="form-field__textarea"
-                  name="details"
-                  rows={4}
-                  maxLength={CONSULTA_LIMITS.details}
-                  value={values.details}
-                  onChange={updateField("details")}
-                />
-              </FormField>
+            <FormField id="consulta-detalle" label={consultaCopy.detailsLabel} error={errors.details} optional>
+              <textarea
+                ref={detailsRef}
+                className="form-field__textarea"
+                name="details"
+                rows={4}
+                maxLength={CONSULTA_LIMITS.details}
+                value={values.details}
+                onChange={updateField("details")}
+              />
+            </FormField>
 
-              <Button className="consultas-form__submit" variant="hero" size="xl" type="submit">
-                <img className="consultas-form__whatsapp-icon" src={whatsappIcon} alt="" aria-hidden="true" />
-                {consultaCopy.prepareLabel}
-              </Button>
-            </form>
-          ) : (
-            <div className="consultas-preview">
-              <h3 className="consultas-preview__eyebrow" id="consulta-preview-title" ref={previewHeadingRef} tabIndex={-1}>
-                {consultaCopy.previewTitle}
-              </h3>
-              <p className="consultas-preview__instruction">{consultaCopy.previewDescription}</p>
-              <p className="consultas-preview__message">{message}</p>
-              <div className="consultas-preview__actions">
-                {whatsappUrl && (
-                  <Button
-                    className="consultas-preview__whatsapp"
-                    variant="hero"
-                    size="xl"
-                    href={whatsappUrl}
-                    target="_blank"
-                    rel="noopener noreferrer"
-                  >
-                    <Send size={16} aria-hidden="true" />
-                    {consultaCopy.openWhatsAppLabel}
-                  </Button>
-                )}
-                <div className="consultas-preview__secondary">
-                  <Button variant="ghostLight" size="xl" type="button" onClick={copyMessage}>
-                    {copied ? <Check size={16} aria-hidden="true" /> : <Copy size={16} aria-hidden="true" />}
-                    {copied ? consultaCopy.copiedLabel : consultaCopy.copyLabel}
-                  </Button>
-                  <Button variant="ghostLight" size="xl" type="button" onClick={editMessage}>
-                    <PencilLine size={16} aria-hidden="true" />
-                    {consultaCopy.editLabel}
-                  </Button>
-                </div>
-              </div>
-            </div>
-          )}
+            <Button className="consultas-form__submit" variant="hero" size="xl" type="submit">
+              <img className="consultas-form__whatsapp-icon" src={whatsappIcon} alt="" aria-hidden="true" />
+              {consultaCopy.prepareLabel}
+            </Button>
+          </form>
         </Reveal>
       </div>
     </section>

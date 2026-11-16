@@ -1,5 +1,5 @@
 import { useEffect, useRef, useState } from "react";
-import { buildWhatsAppUrl } from "../lib/whatsapp.js";
+import { buildWhatsAppGeneralMessage, buildWhatsAppUrl } from "../lib/whatsapp.js";
 import whatsappIcon from "../assets/whatsapp-icon.svg";
 import "./WhatsAppFloating.css";
 
@@ -10,7 +10,7 @@ export default function WhatsAppFloating() {
   const [footerVisible, setFooterVisible] = useState(false);
   const [previewActive, setPreviewActive] = useState(false);
   const [mobileHomeState, setMobileHomeState] = useState("pending");
-  const href = buildWhatsAppUrl();
+  const href = buildWhatsAppUrl(buildWhatsAppGeneralMessage());
   const developmentPreview = import.meta.env.DEV && !href;
 
   useEffect(() => {
