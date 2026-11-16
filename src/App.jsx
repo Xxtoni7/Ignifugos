@@ -31,7 +31,7 @@ export default function App() {
     <>
       <Header availableSections={["certificado"]} />
       <main id="contenido" aria-label="Contenido principal">
-        <Home />
+        <Home onConsult={openConsultas} />
         <Marquee />
         <Certificado />
         <Tratamientos />
