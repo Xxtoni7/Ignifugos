@@ -1,3 +1,4 @@
+import { useCallback, useRef, useState } from "react";
 import Header from "./sections/Header.jsx";
 import Home from "./sections/Home.jsx";
 import Marquee from "./sections/Marquee.jsx";
@@ -5,8 +6,27 @@ import Certificado from "./sections/Certificado.jsx";
 import Tratamientos from "./sections/Tratamientos.jsx";
 import WhatsAppFloating from "./components/WhatsAppFloating.jsx";
 import Capacitaciones from "./sections/Capacitaciones.jsx";
+import Consultas from "./sections/Consultas.jsx";
 
 export default function App() {
+  const [selectedService, setSelectedService] = useState("");
+  const consultasRef = useRef(null);
+  const consultasHeadingRef = useRef(null);
+
+  const openConsultas = useCallback((service = "") => {
+    setSelectedService(service);
+    window.requestAnimationFrame(() => {
+      const section = consultasRef.current;
+      if (!section) return;
+
+      const reduceMotion = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
+      const headerHeight = document.querySelector(".site-header")?.getBoundingClientRect().height ?? 0;
+      const sectionTop = section.getBoundingClientRect().top + window.scrollY;
+      window.scrollTo({ top: sectionTop - headerHeight, behavior: reduceMotion ? "auto" : "smooth" });
+      consultasHeadingRef.current?.focus({ preventScroll: true });
+    });
+  }, []);
+
   return (
     <>
       <Header availableSections={["certificado"]} />
@@ -16,6 +36,11 @@ export default function App() {
         <Certificado />
         <Tratamientos />
         <Capacitaciones />
+        <Consultas
+          ref={consultasRef}
+          headingRef={consultasHeadingRef}
+          selectedService={selectedService}
+        />
       </main>
       <WhatsAppFloating />
     </>
