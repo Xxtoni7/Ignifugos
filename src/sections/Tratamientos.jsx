@@ -3,7 +3,7 @@ import Reveal from "../components/Reveal.jsx";
 import { treatments, treatmentsIntroduction } from "../content/treatments.js";
 import "./Tratamientos.css";
 
-function TreatmentCard({ treatment, index }) {
+function TreatmentCard({ treatment, index, onConsult }) {
   const {
     title,
     description,
@@ -36,9 +36,8 @@ function TreatmentCard({ treatment, index }) {
           <button
             className="treatment-card__action"
             type="button"
-            aria-disabled="true"
-            aria-label={`${actionLabel}. La consulta estará disponible cuando se incorpore el formulario.`}
-            data-service={service}
+            aria-label={actionLabel}
+            onClick={() => onConsult?.(service)}
           >
             <span>{actionLabel}</span>
             <span className="treatment-card__arrow" aria-hidden="true">↗</span>
@@ -49,7 +48,7 @@ function TreatmentCard({ treatment, index }) {
   );
 }
 
-export default function Tratamientos() {
+export default function Tratamientos({ onConsult }) {
   return (
     <section className="treatments-section" aria-labelledby="treatments-title">
       <span id="tratamientos" className="treatments-section__anchor" aria-hidden="true" />
@@ -67,7 +66,7 @@ export default function Tratamientos() {
         </Reveal>
         <div className="treatments-section__cards">
           {treatments.map((treatment, index) => (
-            <TreatmentCard key={treatment.id} treatment={treatment} index={index} />
+            <TreatmentCard key={treatment.id} treatment={treatment} index={index} onConsult={onConsult} />
           ))}
         </div>
       </div>

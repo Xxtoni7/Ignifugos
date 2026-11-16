@@ -34,7 +34,7 @@ export default function App() {
         <Home onConsult={openConsultas} />
         <Marquee />
         <Certificado onConsult={openConsultas} />
-        <Tratamientos />
+        <Tratamientos onConsult={openConsultas} />
         <Capacitaciones />
         <Consultas
           ref={consultasRef}
