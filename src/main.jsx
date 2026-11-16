@@ -6,6 +6,12 @@ import "./styles/global.css";
 
 const root = document.getElementById("root");
 
+window.history.scrollRestoration = "manual";
+if (window.location.hash) {
+  window.history.replaceState(window.history.state, "", window.location.pathname + window.location.search);
+}
+window.scrollTo(0, 0);
+
 document.addEventListener("click", handleInPageNavigation);
 
 if (import.meta.hot) {

@@ -21,11 +21,11 @@ function Brand({ homeReady, onNavigate }) {
   );
 }
 
-function Navigation({ availableSections, onNavigate, drawer = false }) {
+function Navigation({ availableSections, activeSection, onNavigate, drawer = false }) {
   return (
     <nav className={drawer ? "header-navigation header-navigation--drawer" : "header-navigation"} aria-label="Secciones">
       {navigationItems.map(({ id, label, href, enabled = false }) => availableSections.includes(id) || enabled ? (
-        <a key={id} href={href ?? `#${id}`} onClick={onNavigate}>{label}</a>
+        <a key={id} href={href ?? `#${id}`} aria-current={activeSection === id ? "location" : undefined} onClick={(event) => onNavigate(id, event)}>{label}</a>
       ) : (
         <span className="header-navigation__pending" key={id}>{label}</span>
       ))}
@@ -43,11 +43,13 @@ function BudgetButton({ budgetReady, onNavigate, className = "" }) {
 
 export default function Header({ availableSections = [], homeReady = true, budgetReady = false, onBudgetNavigate }) {
   const [scrolled, setScrolled] = useState(false);
+  const [activeSection, setActiveSection] = useState("inicio");
   const [drawerState, setDrawerState] = useState("closed");
   const triggerRef = useRef(null);
   const closeTimerRef = useRef(null);
   const restoreTriggerFocusRef = useRef(true);
   const pendingBudgetNavigationRef = useRef(false);
+  const navigationTargetRef = useRef(null);
   const drawerVisible = drawerState !== "closed";
   const drawerExpanded = drawerState === "open";
 
@@ -62,6 +64,13 @@ export default function Header({ availableSections = [], homeReady = true, budge
     setDrawerState((current) => current === "closed" ? "opening" : "open");
   };
 
+  const navigateToSection = (id, event) => {
+    if (event.defaultPrevented || event.button !== 0 || event.metaKey || event.ctrlKey || event.shiftKey || event.altKey) return;
+    if (id !== activeSection) navigationTargetRef.current = id;
+    setActiveSection(id);
+    closeMenu();
+  };
+
   const navigateToBudget = (event) => {
     if (event.defaultPrevented || event.button !== 0 || event.metaKey || event.ctrlKey || event.shiftKey || event.altKey) return;
     if (!onBudgetNavigate) {
@@ -69,6 +78,8 @@ export default function Header({ availableSections = [], homeReady = true, budge
       return;
     }
     event.preventDefault();
+    if (activeSection !== "consulta") navigationTargetRef.current = "consulta";
+    setActiveSection("consulta");
     restoreTriggerFocusRef.current = false;
     if (drawerVisible) {
       pendingBudgetNavigationRef.current = true;
@@ -84,11 +95,35 @@ export default function Header({ availableSections = [], homeReady = true, budge
   };
 
   useEffect(() => {
-    const updateScrolled = () => setScrolled(window.scrollY > 24);
-    updateScrolled();
-    window.addEventListener("scroll", updateScrolled, { passive: true });
-    return () => window.removeEventListener("scroll", updateScrolled);
-  }, []);
+    const sections = [
+      ...navigationItems.filter(({ id, enabled }) => enabled || availableSections.includes(id)).map(({ id }) => id),
+      ...(budgetReady ? ["consulta"] : []),
+    ];
+    const updatePosition = () => {
+      setScrolled(window.scrollY > 24);
+      if (navigationTargetRef.current) return;
+
+      const headerHeight = document.querySelector(".site-header")?.getBoundingClientRect().height ?? 0;
+      const readingLine = window.scrollY + headerHeight + Math.min(window.innerHeight * 0.35, 240);
+      let visibleSection = "inicio";
+      for (const id of sections) {
+        const element = document.getElementById(id);
+        if (element && element.getBoundingClientRect().top + window.scrollY <= readingLine) visibleSection = id;
+      }
+      setActiveSection(visibleSection);
+    };
+    const finishNavigation = () => {
+      navigationTargetRef.current = null;
+      updatePosition();
+    };
+    updatePosition();
+    window.addEventListener("scroll", updatePosition, { passive: true });
+    window.addEventListener("scrollend", finishNavigation);
+    return () => {
+      window.removeEventListener("scroll", updatePosition);
+      window.removeEventListener("scrollend", finishNavigation);
+    };
+  }, [availableSections, budgetReady]);
 
   useEffect(() => {
     if (drawerState !== "opening") return undefined;
@@ -175,8 +210,8 @@ export default function Header({ availableSections = [], homeReady = true, budge
     <>
       <header className={`site-header${scrolled ? " site-header--scrolled" : ""}${drawerVisible ? " site-header--menu-visible" : ""}`}>
         <div className="site-header__row container">
-          <Brand homeReady={homeReady} onNavigate={closeMenu} />
-          <Navigation availableSections={availableSections} onNavigate={closeMenu} />
+          <Brand homeReady={homeReady} onNavigate={(event) => navigateToSection("inicio", event)} />
+          <Navigation availableSections={availableSections} activeSection={activeSection} onNavigate={navigateToSection} />
           <div className="site-header__cta">
             <BudgetButton budgetReady={budgetReady} onNavigate={navigateToBudget} />
           </div>
@@ -203,7 +238,7 @@ export default function Header({ availableSections = [], homeReady = true, budge
         <div className="header-drawer" id="header-drawer" data-state={drawerState}>
           <button className="header-drawer__overlay" type="button" tabIndex={-1} aria-label="Cerrar menú" onClick={closeMenu} />
           <dialog open className="header-drawer__panel" aria-modal="true" aria-label="Menú" aria-owns="header-menu-trigger">
-            <Navigation drawer availableSections={availableSections} onNavigate={closeMenu} />
+            <Navigation drawer availableSections={availableSections} activeSection={activeSection} onNavigate={navigateToSection} />
             <BudgetButton className="header-drawer__cta" budgetReady={budgetReady} onNavigate={navigateToBudget} />
           </dialog>
         </div>
