@@ -4,7 +4,7 @@ import heroImage from "../assets/hero.png";
 import mobileHeroImage from "../assets/hero-mobile.webp";
 import "./Home.css";
 
-export default function Home() {
+export default function Home({ onConsult }) {
   return (
     <section className="home-hero" id="inicio" aria-labelledby="home-title">
       <picture>
@@ -27,7 +27,7 @@ export default function Home() {
             Protegemos lo que <span>importa</span>
           </h1>
           <p>
-            Tratamos maderas, textiles y estructuras, y entregamos un certificado firmado por ingeniero en Seguridad e Higiene.
+            Tratamos maderas, textiles, estructuras y entregamos un certificado firmado por ingeniero en Seguridad e Higiene.
           </p>
           <div className="home-hero__trajectory">
             <span className="home-hero__trajectory-icon" aria-hidden="true">
@@ -40,7 +40,7 @@ export default function Home() {
         </div>
         <div className="home-hero__lower">
           <div className="home-hero__actions" aria-label="Acciones principales">
-            <Button variant="hero" disabled>
+            <Button variant="hero" onClick={() => onConsult?.()}>
               Resolvemos de inmediato <ArrowRight size={16} strokeWidth={2} aria-hidden="true" />
             </Button>
             <Button className="home-hero__secondary" href="#tratamientos">

@@ -233,11 +233,22 @@
   color: var(--color-foreground);
 }
 
+.header-navigation--drawer a:hover,
+.header-navigation--drawer a:focus-visible,
+.header-navigation a[aria-current="location"] {
+  color: var(--color-primary);
+}
+
 .header-drawer__cta {
   width: 100%;
   min-height: 52px;
   margin-top: 32px;
   font-size: 16px;
+}
+
+.site-header__cta .button--hero,
+.header-drawer__cta.button--hero {
+  box-shadow: none;
 }
 
 @media (max-width: 374px) {

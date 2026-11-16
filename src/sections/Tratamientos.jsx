@@ -4,7 +4,7 @@ import Reveal from "../components/Reveal.jsx";
 import { treatments, treatmentsIntroduction } from "../content/treatments.js";
 import "./Tratamientos.css";
 
-function TreatmentCard({ treatment, index, active, onRevealComplete }) {
+function TreatmentCard({ treatment, index, active, onRevealComplete, onConsult }) {
   const {
     title,
     description,
@@ -46,9 +46,8 @@ function TreatmentCard({ treatment, index, active, onRevealComplete }) {
           <button
             className="treatment-card__action"
             type="button"
-            aria-disabled="true"
-            aria-label={`${actionLabel}. La consulta estará disponible cuando se incorpore el formulario.`}
-            data-service={service}
+            aria-label={actionLabel}
+            onClick={() => onConsult?.(service)}
           >
             <span>{actionLabel}</span>
             <span className="treatment-card__arrow" aria-hidden="true">↗</span>
@@ -59,7 +58,7 @@ function TreatmentCard({ treatment, index, active, onRevealComplete }) {
   );
 }
 
-export default function Tratamientos() {
+export default function Tratamientos({ onConsult }) {
   const sectionRef = useRef(null);
   const cardsRef = useRef([]);
   const centeredRef = useRef(new Set());
@@ -135,7 +134,14 @@ export default function Tratamientos() {
         </Reveal>
         <div className="treatments-section__cards">
           {treatments.map((treatment, index) => (
-            <TreatmentCard key={treatment.id} treatment={treatment} index={index} active={activeIndex === index} onRevealComplete={onRevealComplete} />
+            <TreatmentCard
+              key={treatment.id}
+              treatment={treatment}
+              index={index}
+              active={activeIndex === index}
+              onRevealComplete={onRevealComplete}
+              onConsult={onConsult}
+            />
           ))}
         </div>
       </div>

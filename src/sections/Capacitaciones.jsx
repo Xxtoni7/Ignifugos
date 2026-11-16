@@ -19,7 +19,7 @@ const icons = {
   Siren,
 };
 
-function CapacitacionCard({ capacitacion, index }) {
+function CapacitacionCard({ capacitacion, index, onConsult }) {
   const Icon = icons[capacitacion.icon];
 
   return (
@@ -27,9 +27,8 @@ function CapacitacionCard({ capacitacion, index }) {
       <button
         className="training-option"
         type="button"
-        aria-disabled="true"
-        aria-label={`${capacitacion.title}. La consulta estará disponible cuando se incorpore el formulario.`}
-        data-service={capacitacion.service}
+        aria-label={capacitacion.title}
+        onClick={() => onConsult?.(capacitacion.service)}
       >
         <span className="training-option__icon" aria-hidden="true">
           <Icon />
@@ -44,7 +43,7 @@ function CapacitacionCard({ capacitacion, index }) {
   );
 }
 
-export default function Capacitaciones() {
+export default function Capacitaciones({ onConsult }) {
   return (
     <section
       id="capacitaciones"
@@ -84,9 +83,8 @@ export default function Capacitaciones() {
               <button
                 className="training-main__action"
                 type="button"
-                aria-disabled="true"
-                aria-label="Consultar capacitación. La consulta estará disponible cuando se incorpore el formulario."
-                data-service={motivosCapacitaciones.rcp}
+                aria-label="Consultar capacitación"
+                onClick={() => onConsult?.(motivosCapacitaciones.rcp)}
               >
                 <span>Consultar capacitación</span>
                 <ArrowRight aria-hidden="true" />
@@ -100,6 +98,7 @@ export default function Capacitaciones() {
                 key={capacitacion.id}
                 capacitacion={capacitacion}
                 index={index}
+                onConsult={onConsult}
               />
             ))}
             <Reveal as="p" className="training-note" delay={300}>

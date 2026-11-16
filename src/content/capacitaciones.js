@@ -1,9 +1,16 @@
-export const motivosCapacitaciones = {
-  rcp: "Capacitación en RCP y primeros auxilios",
-  extintores: "Capacitación en uso de extintores",
-  brigadas: "Capacitación para brigadas de emergencias",
-  seguridadHigiene: "Servicios de seguridad e higiene",
-};
+import {
+  SERVICE_BRIGADES,
+  SERVICE_EXTINGUISHERS,
+  SERVICE_RCP,
+  SERVICE_SAFETY_HYGIENE,
+} from "./services.js";
+
+export const motivosCapacitaciones = Object.freeze({
+  rcp: SERVICE_RCP,
+  extintores: SERVICE_EXTINGUISHERS,
+  brigadas: SERVICE_BRIGADES,
+  seguridadHigiene: SERVICE_SAFETY_HYGIENE,
+});
 
 export const capacitaciones = [
   {

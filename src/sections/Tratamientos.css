@@ -182,7 +182,7 @@
   border-top: 1px solid var(--treatment-divider);
   background: transparent;
   color: var(--treatment-ink);
-  cursor: default;
+  cursor: pointer;
   font-family: "DM Sans", var(--font-body);
   font-size: 0.78rem;
   font-weight: 700;

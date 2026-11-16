@@ -1,24 +1,87 @@
 .form-field {
   display: grid;
   gap: 8px;
+  min-width: 0;
 }
 
 .form-field__label {
+  display: flex;
+  align-items: baseline;
+  gap: 4px;
+  color: color-mix(in oklch, var(--color-foreground) 85%, transparent);
   font-size: 14px;
-  font-weight: 700;
+  font-weight: 600;
+  line-height: 1;
 }
 
-.form-field__control {
+.form-field__required {
+  color: var(--color-primary);
+}
+
+.form-field__optional {
+  color: color-mix(in oklch, var(--color-foreground) 68%, transparent);
+  font-size: 12px;
+  font-weight: 500;
+}
+
+.form-field__control,
+.form-field__input,
+.form-field__textarea,
+.select-field__trigger {
+  width: 100%;
   min-width: 0;
-  min-height: 44px;
-  padding: 10px 14px;
   border: 1px solid var(--color-input);
-  border-radius: var(--radius-lg);
-  background: var(--color-paper);
-  color: var(--color-background);
+  border-radius: var(--radius-xl);
+  background: transparent;
+  color: var(--color-foreground);
+  box-shadow: var(--consulta-shadow-sm, none);
+}
+
+.form-field__input,
+.select-field__trigger {
+  height: 48px;
+  padding: 0 12px;
+}
+
+.form-field__textarea {
+  min-height: 112px;
+  padding: 8px 12px;
+  resize: vertical;
+  line-height: 1.5;
+}
+
+.form-field__input,
+.form-field__textarea {
+  font-size: 16px;
+}
+
+.form-field__input::placeholder,
+.form-field__textarea::placeholder {
+  color: color-mix(in oklch, var(--color-foreground) 68%, transparent);
+}
+
+.form-field__input:focus-visible,
+.form-field__textarea:focus-visible,
+.select-field__trigger:focus-visible {
+  outline: 1px solid var(--color-primary);
+  outline-offset: 1px;
+}
+
+.form-field__input[aria-invalid="true"],
+.form-field__textarea[aria-invalid="true"],
+.select-field__trigger[aria-invalid="true"] {
+  border-color: var(--color-flame);
 }
 
 .form-field__error {
   color: var(--color-flame);
   font-size: 13px;
+  line-height: 1.4;
+}
+
+@media (min-width: 768px) {
+  .form-field__input,
+  .form-field__textarea {
+    font-size: 14px;
+  }
 }

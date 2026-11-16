@@ -1,4 +1,4 @@
-export const WHATSAPP_NUMBER = import.meta.env.VITE_WHATSAPP_NUMBER || null;
+export const WHATSAPP_NUMBER = import.meta.env?.VITE_WHATSAPP_NUMBER || null;
 
 export const WHATSAPP_GENERAL_MESSAGE =
   "Hola, vengo de la página web y quisiera realizar una consulta.";
