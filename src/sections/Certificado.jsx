@@ -2,6 +2,7 @@ import { ArrowRight, FileCheck2, PenLine, ShieldCheck } from "lucide-react";
 import Button from "../components/Button.jsx";
 import Reveal from "../components/Reveal.jsx";
 import logo from "../assets/logo.jpeg";
+import { SERVICE_CERTIFICATE } from "../content/services.js";
 import "./Certificado.css";
 
 const points = [
@@ -47,7 +48,7 @@ function CertificateIllustration() {
   );
 }
 
-export default function Certificado() {
+export default function Certificado({ onConsult }) {
   return (
     <section id="certificado" className="certificate-section">
       <div className="container certificate-section__inner">
@@ -82,8 +83,7 @@ export default function Certificado() {
             <Button
               className="certificate-section__cta"
               variant="hero"
-              data-service="Tratamiento ignífugo con certificado"
-              disabled
+              onClick={() => onConsult?.(SERVICE_CERTIFICATE)}
             >
               Consultar por el certificado <ArrowRight aria-hidden="true" />
             </Button>

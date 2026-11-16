@@ -33,7 +33,7 @@ export default function App() {
       <main id="contenido" aria-label="Contenido principal">
         <Home onConsult={openConsultas} />
         <Marquee />
-        <Certificado />
+        <Certificado onConsult={openConsultas} />
         <Tratamientos />
         <Capacitaciones />
         <Consultas
