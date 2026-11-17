@@ -1,4 +1,4 @@
-@import url("https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;600;700&display=swap");
+@import "@fontsource-variable/dm-sans/wght.css";
 
 .treatments-section {
   --treatment-surface: #fff;
@@ -164,7 +164,7 @@
   min-height: 60px;
   margin: 0;
   color: var(--treatment-muted);
-  font-family: "DM Sans", var(--font-body);
+  font-family: "DM Sans Variable", var(--font-body);
   font-size: 0.88rem;
   line-height: 1.65;
 }
@@ -183,7 +183,7 @@
   background: transparent;
   color: var(--treatment-ink);
   cursor: pointer;
-  font-family: "DM Sans", var(--font-body);
+  font-family: "DM Sans Variable", var(--font-body);
   font-size: 0.78rem;
   font-weight: 700;
   line-height: 1.4;
