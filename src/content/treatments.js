@@ -1,6 +1,6 @@
-import woodImage from "../assets/tratamiento-madera.png";
-import textilesImage from "../assets/tratamiento-textil.png";
-import steelImage from "../assets/tratamiento-metal.png";
+import woodImage from "../assets/tratamiento-madera.webp";
+import textilesImage from "../assets/tratamiento-textil.webp";
+import steelImage from "../assets/tratamiento-metal.webp";
 import {
   SERVICE_METAL,
   SERVICE_TEXTILES,

@@ -17,12 +17,12 @@ const pages = [
     module: "/src/App.jsx",
     output: "dist/index.html",
     images: [
-      "src/assets/hero.png",
+      "src/assets/hero.webp",
       "src/assets/hero-mobile.webp",
       "src/assets/logo.jpeg",
-      "src/assets/tratamiento-madera.png",
-      "src/assets/tratamiento-textil.png",
-      "src/assets/tratamiento-metal.png",
+      "src/assets/tratamiento-madera.webp",
+      "src/assets/tratamiento-textil.webp",
+      "src/assets/tratamiento-metal.webp",
     ],
   },
   {

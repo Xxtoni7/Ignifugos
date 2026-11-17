@@ -1,6 +1,6 @@
 import { ArrowRight, CalendarDays } from "lucide-react";
 import Button from "../components/Button.jsx";
-import heroImage from "../assets/hero.png";
+import heroImage from "../assets/hero.webp";
 import mobileHeroImage from "../assets/hero-mobile.webp";
 import "./Home.css";
 
