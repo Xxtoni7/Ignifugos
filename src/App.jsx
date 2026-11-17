@@ -10,12 +10,12 @@ import Consultas from "./sections/Consultas.jsx";
 import Footer from "./sections/Footer.jsx";
 
 export default function App() {
-  const [selectedService, setSelectedService] = useState("");
+  const [serviceSelection, setServiceSelection] = useState({ service: "" });
   const consultasRef = useRef(null);
   const consultasHeadingRef = useRef(null);
 
   const openConsultas = useCallback((service = "") => {
-    setSelectedService(service);
+    setServiceSelection({ service });
     window.requestAnimationFrame(() => {
       const section = consultasRef.current;
       if (!section) return;
@@ -45,7 +45,7 @@ export default function App() {
         <Consultas
           ref={consultasRef}
           headingRef={consultasHeadingRef}
-          selectedService={selectedService}
+          serviceSelection={serviceSelection}
         />
       </main>
       <Footer />

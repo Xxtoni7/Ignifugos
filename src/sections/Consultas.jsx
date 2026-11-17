@@ -22,10 +22,10 @@ function Flame({ className }) {
 }
 
 const Consultas = forwardRef(function Consultas(
-  { headingRef, selectedService = "" },
+  { headingRef, serviceSelection },
   sectionRef,
 ) {
-  const [values, setValues] = useState(() => ({ ...initialValues, service: selectedService }));
+  const [values, setValues] = useState(() => ({ ...initialValues, service: serviceSelection.service }));
   const [errors, setErrors] = useState({});
   const nameRef = useRef(null);
   const serviceRef = useRef(null);
@@ -33,9 +33,9 @@ const Consultas = forwardRef(function Consultas(
   const detailsRef = useRef(null);
 
   useEffect(() => {
-    setValues((current) => ({ ...current, service: selectedService }));
+    setValues((current) => ({ ...current, service: serviceSelection.service }));
     setErrors((current) => ({ ...current, service: undefined }));
-  }, [selectedService]);
+  }, [serviceSelection]);
 
   const updateField = (field) => (eventOrValue) => {
     const value = typeof eventOrValue === "string" ? eventOrValue : eventOrValue.target.value;
