@@ -7,6 +7,7 @@ import Tratamientos from "./sections/Tratamientos.jsx";
 import WhatsAppFloating from "./components/WhatsAppFloating.jsx";
 import Capacitaciones from "./sections/Capacitaciones.jsx";
 import Consultas from "./sections/Consultas.jsx";
+import Footer from "./sections/Footer.jsx";
 
 export default function App() {
   const [selectedService, setSelectedService] = useState("");
@@ -47,6 +48,7 @@ export default function App() {
           selectedService={selectedService}
         />
       </main>
+      <Footer />
       <WhatsAppFloating />
     </>
   );

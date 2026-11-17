@@ -1,0 +1,47 @@
+@import "@fontsource-variable/outfit/index.css";
+@import "@fontsource-variable/inter/index.css";
+
+:root {
+  --font-outfit: "Outfit Variable";
+  --font-inter: "Inter Variable";
+}
+
+.site-footer,
+.legal-page {
+  --legal-navy: #0f1b33;
+  --legal-lime: #c8e632;
+  --legal-white: #fff;
+  --legal-muted: rgb(255 255 255 / 68%);
+  --legal-quiet: rgb(255 255 255 / 48%);
+  --legal-body: var(--font-inter), Inter, sans-serif;
+  --legal-display: var(--font-outfit), Outfit, sans-serif;
+  font-family: var(--legal-body);
+}
+
+.legal-page-root,
+.legal-page-root *,
+.legal-page-root *::before,
+.legal-page-root *::after {
+  box-sizing: border-box;
+}
+
+.legal-page-root { min-height: 100vh; }
+
+.site-footer a,
+.legal-page a {
+  -webkit-tap-highlight-color: transparent;
+}
+
+.site-footer :focus-visible,
+.legal-page :focus-visible {
+  outline: 3px solid var(--legal-lime);
+  outline-offset: 3px;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .site-footer *,
+  .legal-page * {
+    scroll-behavior: auto !important;
+    transition-duration: 0.01ms !important;
+  }
+}
