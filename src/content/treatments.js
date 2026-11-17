@@ -40,6 +40,5 @@ export const treatments = [
     image: steelImage,
     imageAlt: "Aplicación de tratamiento sobre una estructura metálica",
     imagePosition: "50% 48%",
-    requiresTechnicalValidation: true,
   },
 ];

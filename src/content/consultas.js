@@ -8,7 +8,6 @@ export const consultaCopy = {
   servicePlaceholder: "Elegí un servicio",
   zoneLabel: "Localidad o zona",
   detailsLabel: "Contanos un poco más",
-  optionalLabel: "(opcional)",
   prepareLabel: "Enviar consulta",
 };
 
