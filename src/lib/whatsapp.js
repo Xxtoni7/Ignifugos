@@ -13,6 +13,16 @@ export function isValidWhatsAppNumber(number = WHATSAPP_NUMBER) {
   return typeof number === "string" && INTERNATIONAL_NUMBER.test(number);
 }
 
+export function formatWhatsAppNumber(number = WHATSAPP_NUMBER) {
+  if (!isValidWhatsAppNumber(number)) return null;
+
+  if (number.startsWith("54911") && number.length === 13) {
+    return `+54 9 11 ${number.slice(5, 9)}-${number.slice(9)}`;
+  }
+
+  return `+${number}`;
+}
+
 export function buildWhatsAppUrl(message, number = WHATSAPP_NUMBER) {
   if (!isValidWhatsAppNumber(number)) return null;
   if (typeof message !== "string" || message.trim().length === 0) return null;

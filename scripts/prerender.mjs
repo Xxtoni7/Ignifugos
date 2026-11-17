@@ -12,45 +12,59 @@ const server = await createServer({
   appType: "custom",
 });
 
+const pages = [
+  {
+    module: "/src/App.jsx",
+    output: "dist/index.html",
+    images: [
+      "src/assets/hero.png",
+      "src/assets/hero-mobile.webp",
+      "src/assets/logo.jpeg",
+      "src/assets/tratamiento-madera.png",
+      "src/assets/tratamiento-textil.png",
+      "src/assets/tratamiento-metal.png",
+    ],
+  },
+  {
+    module: "/src/legal/PrivacyPolicy.jsx",
+    output: "dist/politica-de-privacidad/index.html",
+    images: ["src/assets/logo.jpeg"],
+  },
+  {
+    module: "/src/legal/TermsAndConditions.jsx",
+    output: "dist/terminos-y-condiciones/index.html",
+    images: ["src/assets/logo.jpeg"],
+  },
+];
+
 try {
-  const { default: App } = await server.ssrLoadModule("/src/App.jsx");
-  const path = resolve("dist/index.html");
-  const html = await readFile(path, "utf8");
-  const manifest = JSON.parse(
-    await readFile(resolve("dist/.vite/manifest.json"), "utf8"),
-  );
-  let output = html.replace(
-    '<div id="root"></div>',
-    `<div id="root">${renderToString(createElement(App))}</div>`,
-  );
+  const manifest = JSON.parse(await readFile(resolve("dist/.vite/manifest.json"), "utf8"));
 
-  if (output === html) {
-    throw new Error("No se encontró el contenedor de React en dist/index.html");
-  }
+  for (const page of pages) {
+    const { default: Component } = await server.ssrLoadModule(page.module);
+    const path = resolve(page.output);
+    const html = await readFile(path, "utf8");
+    let output = html.replace(
+      '<div id="root"></div>',
+      `<div id="root">${renderToString(createElement(Component))}</div>`,
+    );
 
-  const requiredImages = [
-    "src/assets/hero.png",
-    "src/assets/hero-mobile.webp",
-    "src/assets/logo.jpeg",
-    "src/assets/tratamiento-madera.png",
-    "src/assets/tratamiento-textil.png",
-    "src/assets/tratamiento-metal.png",
-  ];
-
-  for (const sourcePath of requiredImages) {
-    const asset = manifest[sourcePath];
-    if (!asset?.file) {
-      throw new Error(`No se encontró ${sourcePath} en el manifest de Vite`);
+    if (output === html) {
+      throw new Error(`No se encontró el contenedor de React en ${page.output}`);
     }
 
-    output = output.replaceAll(`/${sourcePath}`, `/${asset.file}`);
-  }
+    for (const sourcePath of page.images) {
+      const asset = manifest[sourcePath];
+      if (!asset?.file) throw new Error(`No se encontró ${sourcePath} en el manifest de Vite`);
+      output = output.replaceAll(`/${sourcePath}`, `/${asset.file}`);
+    }
 
-  if (/\/(?:src\/assets)\//.test(output)) {
-    throw new Error("El HTML prerenderizado conserva rutas fuente de assets");
-  }
+    if (/\/(?:src\/assets)\//.test(output)) {
+      throw new Error(`El HTML prerenderizado conserva rutas fuente de assets: ${page.output}`);
+    }
 
-  await writeFile(path, output);
+    await writeFile(path, output);
+  }
 } finally {
   await server.close();
 }

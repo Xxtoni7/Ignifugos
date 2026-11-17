@@ -1,3 +1,11 @@
+export const SECTION_NAVIGATION_EVENT = "ignifugos:section-navigation";
+
+function announceSectionNavigation(sectionId) {
+  window.dispatchEvent(new CustomEvent(SECTION_NAVIGATION_EVENT, {
+    detail: { sectionId },
+  }));
+}
+
 export function handleInPageNavigation(event) {
   if (
     event.defaultPrevented
@@ -29,6 +37,8 @@ export function handleInPageNavigation(event) {
   if (!section) return;
 
   event.preventDefault();
+
+  announceSectionNavigation(sectionId);
 
   if (window.location.hash !== link.hash) {
     window.history.pushState(null, "", link.href);

@@ -1,25 +1,9 @@
 import { useCallback, useEffect, useRef, useState } from "react";
 import Button from "../components/Button.jsx";
 import { HOME_HREF, navigationItems } from "../content/navigation.js";
-import logo from "../assets/logo.jpeg";
+import Brand from "../components/Brand.jsx";
+import { SECTION_NAVIGATION_EVENT } from "../lib/inPageNavigation.js";
 import "./Header.css";
-
-function Brand({ homeReady, onNavigate }) {
-  const contents = (
-    <>
-      <span className="header-brand__mark" aria-hidden="true">
-        <img className="header-brand__image" src={logo} alt="" width="1563" height="1563" />
-      </span>
-      <span className="header-brand__text">IGNÍFUGOS <span>CABA</span></span>
-    </>
-  );
-
-  return homeReady ? (
-    <a className="header-brand" href={HOME_HREF} aria-label="Ignífugos CABA, inicio" onClick={onNavigate}>{contents}</a>
-  ) : (
-    <span className="header-brand">{contents}</span>
-  );
-}
 
 function Navigation({ availableSections, activeSection, onNavigate, drawer = false }) {
   return (
@@ -64,10 +48,8 @@ export default function Header({ availableSections = [], homeReady = true, budge
     setDrawerState((current) => current === "closed" ? "opening" : "open");
   };
 
-  const navigateToSection = (id, event) => {
+  const closeDrawerForSectionNavigation = (_id, event) => {
     if (event.defaultPrevented || event.button !== 0 || event.metaKey || event.ctrlKey || event.shiftKey || event.altKey) return;
-    if (id !== activeSection) navigationTargetRef.current = id;
-    setActiveSection(id);
     closeMenu();
   };
 
@@ -99,9 +81,22 @@ export default function Header({ availableSections = [], homeReady = true, budge
       ...navigationItems.filter(({ id, enabled }) => enabled || availableSections.includes(id)).map(({ id }) => id),
       ...(budgetReady ? ["consulta"] : []),
     ];
+    let navigationFallbackTimer;
+    const finishNavigation = () => {
+      window.clearTimeout(navigationFallbackTimer);
+      navigationTargetRef.current = null;
+      updatePosition();
+    };
+    const scheduleNavigationFallback = () => {
+      window.clearTimeout(navigationFallbackTimer);
+      navigationFallbackTimer = window.setTimeout(finishNavigation, 180);
+    };
     const updatePosition = () => {
       setScrolled(window.scrollY > 24);
-      if (navigationTargetRef.current) return;
+      if (navigationTargetRef.current) {
+        scheduleNavigationFallback();
+        return;
+      }
 
       const headerHeight = document.querySelector(".site-header")?.getBoundingClientRect().height ?? 0;
       const readingLine = window.scrollY + headerHeight + Math.min(window.innerHeight * 0.35, 240);
@@ -112,14 +107,21 @@ export default function Header({ availableSections = [], homeReady = true, budge
       }
       setActiveSection(visibleSection);
     };
-    const finishNavigation = () => {
-      navigationTargetRef.current = null;
-      updatePosition();
+    const beginSectionNavigation = (event) => {
+      const sectionId = event.detail?.sectionId;
+      if (!sections.includes(sectionId)) return;
+
+      navigationTargetRef.current = sectionId;
+      setActiveSection(sectionId);
+      scheduleNavigationFallback();
     };
     updatePosition();
+    window.addEventListener(SECTION_NAVIGATION_EVENT, beginSectionNavigation);
     window.addEventListener("scroll", updatePosition, { passive: true });
     window.addEventListener("scrollend", finishNavigation);
     return () => {
+      window.clearTimeout(navigationFallbackTimer);
+      window.removeEventListener(SECTION_NAVIGATION_EVENT, beginSectionNavigation);
       window.removeEventListener("scroll", updatePosition);
       window.removeEventListener("scrollend", finishNavigation);
     };
@@ -210,8 +212,8 @@ export default function Header({ availableSections = [], homeReady = true, budge
     <>
       <header className={`site-header${scrolled ? " site-header--scrolled" : ""}${drawerVisible ? " site-header--menu-visible" : ""}`}>
         <div className="site-header__row container">
-          <Brand homeReady={homeReady} onNavigate={(event) => navigateToSection("inicio", event)} />
-          <Navigation availableSections={availableSections} activeSection={activeSection} onNavigate={navigateToSection} />
+          <Brand homeReady={homeReady} href={HOME_HREF} onNavigate={(event) => closeDrawerForSectionNavigation("inicio", event)} />
+          <Navigation availableSections={availableSections} activeSection={activeSection} onNavigate={closeDrawerForSectionNavigation} />
           <div className="site-header__cta">
             <BudgetButton budgetReady={budgetReady} onNavigate={navigateToBudget} />
           </div>
@@ -238,7 +240,7 @@ export default function Header({ availableSections = [], homeReady = true, budge
         <div className="header-drawer" id="header-drawer" data-state={drawerState}>
           <button className="header-drawer__overlay" type="button" tabIndex={-1} aria-label="Cerrar menú" onClick={closeMenu} />
           <dialog open className="header-drawer__panel" aria-modal="true" aria-label="Menú" aria-owns="header-menu-trigger">
-            <Navigation drawer availableSections={availableSections} activeSection={activeSection} onNavigate={navigateToSection} />
+            <Navigation drawer availableSections={availableSections} activeSection={activeSection} onNavigate={closeDrawerForSectionNavigation} />
             <BudgetButton className="header-drawer__cta" budgetReady={budgetReady} onNavigate={navigateToBudget} />
           </dialog>
         </div>
