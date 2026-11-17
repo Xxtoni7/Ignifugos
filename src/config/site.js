@@ -1,20 +1,16 @@
+import { HOME_HREF, sectionDestinations } from "../content/navigation.js";
+
 export const SITE_BRAND_NAME = "Ignífugos CABA";
 
 export const SITE_DESCRIPTION = "Tratamientos ignífugos y capacitaciones.";
 
 export const SITE_ROUTES = {
-  home: "/#inicio",
+  home: `/${HOME_HREF}`,
   privacy: "/politica-de-privacidad/",
   terms: "/terminos-y-condiciones/",
 };
 
-export const FOOTER_NAVIGATION = [
-  { label: "Inicio", href: "#inicio" },
-  { label: "Certificado", href: "#certificado" },
-  { label: "Tratamientos", href: "#tratamientos" },
-  { label: "Capacitaciones", href: "#capacitaciones" },
-  { label: "Consulta", href: "#consulta" },
-];
+export const FOOTER_NAVIGATION = sectionDestinations.map(({ label, href }) => ({ label, href }));
 
 // Datos ficticios centralizados para la revisión local. Reemplazarlos por los datos de la clienta antes de publicar.
 const businessAddress = "CABA, Argentina";
