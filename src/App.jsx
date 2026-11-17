@@ -1,4 +1,4 @@
-import { useCallback, useRef, useState } from "react";
+import { useCallback, useEffect, useRef, useState } from "react";
 import Header from "./sections/Header.jsx";
 import Home from "./sections/Home.jsx";
 import Marquee from "./sections/Marquee.jsx";
@@ -13,6 +13,33 @@ export default function App() {
   const [serviceSelection, setServiceSelection] = useState({ service: "" });
   const consultasRef = useRef(null);
   const consultasHeadingRef = useRef(null);
+
+  useEffect(() => {
+    const initialHash = window.location.hash;
+    if (!initialHash) return undefined;
+
+    let sectionId;
+    try {
+      sectionId = decodeURIComponent(initialHash.slice(1));
+    } catch {
+      return undefined;
+    }
+
+    const alignWithSection = () => {
+      if (window.location.hash !== initialHash) return;
+      document.getElementById(sectionId)?.scrollIntoView({ behavior: "auto", block: "start" });
+    };
+
+    const frame = window.requestAnimationFrame(alignWithSection);
+    if (document.readyState !== "complete") {
+      window.addEventListener("load", alignWithSection, { once: true });
+    }
+
+    return () => {
+      window.cancelAnimationFrame(frame);
+      window.removeEventListener("load", alignWithSection);
+    };
+  }, []);
 
   const openConsultas = useCallback((service = "") => {
     setServiceSelection({ service });
